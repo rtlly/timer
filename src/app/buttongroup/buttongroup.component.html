@@ -1,0 +1,9 @@
+<div class="center">
+  <button [disabled]="isReset" (click)="Reset.emit()" class="reset"></button>
+
+  <button *ngIf="isCount" (click)="Start.emit()" class="start"></button>
+
+  <button *ngIf="!isCount" (click)="Stop.emit()" class="stop"></button>
+
+  <button [disabled]="isCount" (click)="Count.emit()" class="count"></button>
+</div>

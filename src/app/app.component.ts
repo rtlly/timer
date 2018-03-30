@@ -1,74 +1,57 @@
-import { Component } from '@angular/core';
-import {Watch} from './watch';
+import { Component, ViewChild } from '@angular/core';
+import { RecordComponent } from './record/record.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
 export class AppComponent {
+  @ViewChild(RecordComponent) child: RecordComponent;
   watchList: Watch[] = [];
-  nowTime: number;
-  startTime: number;
-  runner: number;
-  temp = 0;
+  runner = 0;
   inter: any;
-  num = 0;
-  num1 = 0;
-  minutes = 0;
-  second = 0;
-  millisecond = 0;
-  showTime: string = '0' + this.minutes + ':' + '0' + this.second + ':' + '0' + this.millisecond;
+  isReset = true;
+  isCount = true;
+
   start() {
-   this.nowTime = Date.now();
-   this.num = 1;
-   this.inter = setInterval(() => {
-     this.startTime = Date.now();
-     this.runner = this.startTime - this.nowTime;
-     this.nowTime = this.startTime;
-     this.millisecond += Math.round(this.runner / 10);
-     if (this.millisecond >= 100) {
-       this.millisecond = this.millisecond - 100;
-       this.second += 1;
-       if (this.second >= 60) {
-         this.second = 0;
-         this.minutes += 1;
-       }
-     }
-     this.showTime = (this.minutes > 10 ? this.minutes : '0' + this.minutes) + ':'
-       + (this.second > 10 ? this.second : '0' + this.second) + ':'
-       + (this.millisecond > 10 ? this.millisecond : '0' + this.millisecond);
-   }, 10);
- }
-
-stop() {
-  clearInterval(this.inter);
-   this.temp += this.runner;
-   this.num = 0;
-   this.num1 = 1;
-}
-
-reset() {
-   this.temp = 0;
-   this.num = 0;
-   this.num1 = 0;
-  this.minutes = 0;
-  this.second = 0;
-  this.millisecond = 0;
-  this.showTime = '0' + this.minutes + ':' + '0' + this.second + ':' + '0' + this.millisecond;
-  this.watchList.length = 0;
-}
-
-count() {
-    let watchObj: Watch = {
-    id: 0,
-    deltaTime: 0,
-    time: '0'
+    let nowTime = Date.now();
+    let startTime: number;
+    this.isReset = true;
+    this.isCount = false;
+    this.inter = setInterval(() => {
+      startTime = Date.now();
+      this.runner = startTime - nowTime + this.runner;
+      nowTime = startTime;
+    }, 10);
   }
-  watchObj.id = this.watchList.length + 1;
-  watchObj.deltaTime = this.runner;
-  watchObj.time = this.showTime;
-  this.watchList.push(watchObj);
-}
+
+  stop() {
+    clearInterval(this.inter);
+    this.isReset = false;
+    this.isCount = true;
+  }
+
+  reset() {
+    this.isReset = true;
+    this.isCount = true;
+    this.watchList.length = 0;
+    this.runner = 0;
+  }
+
+  count() {
+    const watchObj: Watch = {
+      deltaTime: 0,
+      now: 0
+    };
+    watchObj.now = this.runner;
+    if (this.watchList.length > 0) {
+      watchObj.deltaTime =
+        this.runner - this.watchList[this.watchList.length - 1].now;
+    } else {
+      watchObj.deltaTime = this.runner;
+    }
+    this.watchList.push(watchObj);
+    this.child.find();
+  }
 }

@@ -1,0 +1,10 @@
+<ul *ngFor="let watchObj of watchList">
+  <div >
+    <li [class.max]="watchList.indexOf(watchObj)===maxid"
+        [class.min]="watchList.indexOf(watchObj)===minid">
+      <span>计次</span>{{watchList.indexOf(watchObj)+1}}
+      <span>时间间隔</span>{{watchObj.deltaTime|formatTime}}
+      <span>{{watchObj.now|formatTime}}</span>
+    </li>
+  </div>
+</ul>

@@ -1,0 +1,19 @@
+.max {
+  background-color: lightblue;
+}
+
+.min {
+  background-color: red;
+}
+ul {
+  text-align: center;
+}
+li {
+  display: inline-block;
+  width: 40%;
+  border-bottom: solid aliceblue;
+  padding: 8px;
+}
+.right{
+  position: relative;
+}

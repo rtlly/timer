@@ -1,26 +1,13 @@
-<h1>{{showTime}}</h1>
+<app-showtime [runner]="runner"></app-showtime>
+<app-buttongroup [isReset]="isReset"
+                 [isCount]="isCount"
+                 (Start)="start()"
+                 (Stop)="stop()"
+                 (Count)="count()"
+                 (Reset)="reset()"></app-buttongroup>
+<app-record [watchList]="watchList"></app-record>
 
-<div *ngIf="!num" >
-  <span *ngIf="!num1">
-    <button disabled
-      (click)="reset()">Reset</button>
-  </span>
-  <span *ngIf="num1">
-    <button (click)="reset()">Reset</button>
-  </span>
-  <button (click)="start()">Start</button>
-  <button disabled
-    (click)="count()">Count</button>
-</div>
-<div *ngIf="num">
-  <button disabled
-  (click)="reset()">Reset</button>
-  <button (click)="stop()">Stop</button>
-  <button (click)="count()">Count</button>
-</div>
-<div *ngFor="let watchObj of watchList">
-  <span>计次</span>{{watchObj.id}}  <span>{{watchObj.time}}</span>
-</div>
+
 
 
 

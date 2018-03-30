@@ -1,0 +1,54 @@
+
+
+button.start
+{
+  width: 30px;
+  height: 30px;
+  border-style: none;
+  background-image: url("../../assets/svg/si-glyph-triangle-right.svg");
+  background-repeat: no-repeat;
+  outline-style: none;
+  margin: 15px;
+}
+
+button.stop
+{
+  width: 30px;
+  height: 30px;
+  border-style: none;
+  background-image: url("../../assets/svg/si-glyph-pause.svg");
+  background-repeat: no-repeat;
+  outline-style: none;
+  margin: 15px;
+}
+
+button.count
+{
+  width: 30px;
+  height: 30px;
+  border-style: none;
+  background-image: url("../../assets/svg/si-glyph-timer.svg");
+  background-repeat: no-repeat;
+  outline-style: none;
+  margin: 15px;
+}
+
+button.reset
+{
+  width: 30px;
+  height: 30px;
+  border-style: none;
+  background-image: url("../../assets/svg/si-glyph-time-reload.svg");
+  background-repeat: no-repeat;
+  outline-style: none;
+  margin: 15px;
+}
+
+button:disabled
+{
+  opacity: 0.2;
+}
+.center
+{
+  text-align: center;
+}
