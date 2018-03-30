@@ -7,27 +7,21 @@ import { RecordComponent } from './record/record.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @ViewChild(RecordComponent) child: RecordComponent;
   watchList: Watch[] = [];
   runner = 0;
   inter: any;
   isReset = true;
   isCount = true;
-
+  nowTime: number;
   start() {
-    let nowTime = Date.now();
-    let startTime: number;
     this.isReset = true;
     this.isCount = false;
-    this.inter = setInterval(() => {
-      startTime = Date.now();
-      this.runner = startTime - nowTime + this.runner;
-      nowTime = startTime;
-    }, 10);
+    this.nowTime = Date.now();
+    this.inter = requestAnimationFrame(() => this.time());
   }
 
   stop() {
-    clearInterval(this.inter);
+    cancelAnimationFrame(this.inter);
     this.isReset = false;
     this.isCount = true;
   }
@@ -45,13 +39,17 @@ export class AppComponent {
       now: 0
     };
     watchObj.now = this.runner;
-    if (this.watchList.length > 0) {
-      watchObj.deltaTime =
-        this.runner - this.watchList[this.watchList.length - 1].now;
-    } else {
-      watchObj.deltaTime = this.runner;
-    }
+    watchObj.deltaTime =
+      this.watchList.length > 0
+        ? this.runner - this.watchList[this.watchList.length - 1].now
+        : this.runner;
     this.watchList.push(watchObj);
-    this.child.find();
+    this.watchList = this.watchList.slice();
+  }
+  time() {
+    const startTime = Date.now();
+    this.runner = startTime - this.nowTime + this.runner;
+    this.nowTime = startTime;
+    this.inter = requestAnimationFrame(() => this.time());
   }
 }
